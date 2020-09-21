@@ -13,7 +13,7 @@ public class ConnectionJDBC {
 	
 	public Connection getConnection() {
 	
-		if(connection == null) {
+		if (connection == null) {
 			try {
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
 			} catch(SQLException e) {
@@ -26,7 +26,7 @@ public class ConnectionJDBC {
 	
 	public void close() {
 		
-		if(connection != null) {
+		if (connection != null) {
 			try {
 				connection.close();
 			} catch(SQLException e) {
