@@ -5,15 +5,17 @@ public class UserModel {
 	private String name;
 	private String email;
 	private String password;
+	private int id;
 	
 	public UserModel() {
 		
 	}
 	
-	public UserModel(String name, String email, String password) {
+	public UserModel(String name, String email, String password, int id) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.id = id;
 	}
 	
 	public String getName() {
@@ -40,7 +42,15 @@ public class UserModel {
 		this.password = password;
 	}
 	
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String toString() {
-		return this.name + " " + this.email;
+		return this.name + " " + this.email + " " + this.id;
 	}
 }
