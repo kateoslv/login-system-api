@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.kattyolv.login.system.api.jdbc.ConnectionJDBC;
 import com.kattyolv.login.system.api.model.UserModel;
@@ -22,20 +23,33 @@ public class DAO {
 		connection = connectionJDBC.getConnection();
 	}
 	
-	public void selectData() {
+	public ArrayList<UserModel> selectData() {
 		
 		try {
 			PreparedStatement stmt = connection.prepareStatement(SELECT);
 			
 			ResultSet resultSet = stmt.executeQuery();
 			
+			ArrayList<UserModel> listUserModel = new ArrayList<UserModel>();
+			
 			while(resultSet.next()) {
-				System.out.println(resultSet.getString("id") + " " + resultSet.getString("name") + " " + resultSet.getString("email"));
+				
+				UserModel userModel = new UserModel();
+				
+				userModel.setId(resultSet.getInt("id"));
+				userModel.setName(resultSet.getString("name"));
+				userModel.setEmail(resultSet.getString("email"));
+				
+				listUserModel.add(userModel);				
 			}
+			
+			return listUserModel;
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 	
 	public void insertData(UserModel userModel) {
