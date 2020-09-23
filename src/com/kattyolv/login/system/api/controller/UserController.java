@@ -26,6 +26,10 @@ public class UserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods", "GET");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		
 		ArrayList<UserModel> listUserModel = dao.selectData();
 		
 		PrintWriter out = response.getWriter();
@@ -36,7 +40,7 @@ public class UserController extends HttpServlet {
 		for (UserModel user : listUserModel) {
 			
 			out.println("<h3>");
-			out.println(user.getId() + " " + user.getName() + " " + user.getEmail());
+			out.println(user.getId() + " " + user.getFirstName() + user.getLastName() + " " + " " + user.getEmail());
 			out.println("</h3>");
 		}
 		
@@ -47,6 +51,7 @@ public class UserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//invoke insert from DAO class
+		
 		
 	}
 
