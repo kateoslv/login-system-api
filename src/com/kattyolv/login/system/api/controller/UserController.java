@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.kattyolv.login.system.api.model.*;
-
+import com.google.gson.Gson;
 import com.kattyolv.login.system.api.dao.DAO;
 
 
@@ -30,21 +30,17 @@ public class UserController extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Methods", "GET");
 		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		
+		response.setContentType("application/json");
+		
+		Gson gson = new Gson();
+		
 		ArrayList<UserModel> listUserModel = dao.selectData();
 		
+		String listUserModelJson = gson.toJson(listUserModel);
+		
 		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
 		
-		out.println("<html><body>");
-		
-		for (UserModel user : listUserModel) {
-			
-			out.println("<h3>");
-			out.println(user.getId() + " " + user.getFirstName() + user.getLastName() + " " + " " + user.getEmail());
-			out.println("</h3>");
-		}
-		
-		out.println("</body></html>");
+		out.print(listUserModelJson);
 		
 	}
 
