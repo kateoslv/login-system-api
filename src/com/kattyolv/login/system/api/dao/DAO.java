@@ -53,7 +53,7 @@ public class DAO {
 		return null;
 	}
 	
-	public void insertData(UserModel userModel) {
+	public boolean insertData(UserModel userModel) {
 		
 		try {
 			PreparedStatement stmt = connection.prepareStatement(INSERT);
@@ -63,11 +63,17 @@ public class DAO {
 			stmt.setString(3, userModel.getEmail());
 			stmt.setString(4, userModel.getPassword());
 			
-			stmt.executeUpdate();
+			int rowsAffected = stmt.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				return true;
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return false;
  	}
 	
 	public boolean updateData(UserModel userModel) {
