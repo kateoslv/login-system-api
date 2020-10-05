@@ -46,8 +46,19 @@ public class UserController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//invoke insert from DAO class
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
 		
+		UserModel userModel = new UserModel();
+		
+		userModel.setFirstName(firstName);
+		userModel.setLastName(lastName);
+		userModel.setEmail(email);
+		userModel.setPassword(password);
+		
+		dao.insertData(userModel);
 		
 	}
 
