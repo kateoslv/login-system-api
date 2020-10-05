@@ -1,6 +1,8 @@
 package com.kattyolv.login.system.api.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -81,8 +83,73 @@ public class UserController extends HttpServlet {
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//invoke update from DAO class	
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods", "PUT");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		
+		try {
+		
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+			
+			UserModel userModel = new UserModel();
+			
+			String data = bufferedReader.readLine();
+			
+			String[] dataSplited = data.split("&");
+			
+			for (String parameters : dataSplited) {
+				
+				String[] splitedParameters = parameters.split("=");
+				
+				String key = splitedParameters[0];
+				String value = null;
+				
+				if (splitedParameters.length > 1) {
+					value = splitedParameters[1];
+				}
+				
+				switch (key) {
+				
+					case "id":
+						if (value != null) {
+							int id = Integer.parseInt(value);
+							userModel.setId(id);
+						}
+						break;
+					case "firstName":
+						userModel.setFirstName(value);
+						break;
+					case "lastName":
+						userModel.setLastName(value);
+						break;
+					case "email":
+						userModel.setEmail(value);
+						break;
+					case "password":
+						userModel.setPassword(value);
+						break;
+				}
+			}
+			
+			if (userModel.getId() == 0) {
+				response.setStatus(400);
+				response.getWriter().println("ID is Required!");
+				return;
+			}
+			
+			boolean hasUpdated = dao.updateData(userModel);
+			
+			if (hasUpdated == true) {
+				response.setStatus(200);
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
