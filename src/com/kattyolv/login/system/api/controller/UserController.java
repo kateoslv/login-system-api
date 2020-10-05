@@ -46,20 +46,37 @@ public class UserController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods", "POST");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		
-		UserModel userModel = new UserModel();
-		
-		userModel.setFirstName(firstName);
-		userModel.setLastName(lastName);
-		userModel.setEmail(email);
-		userModel.setPassword(password);
-		
-		dao.insertData(userModel);
-		
+		try {
+			
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			
+			UserModel userModel = new UserModel();
+			
+			userModel.setFirstName(firstName);
+			userModel.setLastName(lastName);
+			userModel.setEmail(email);
+			userModel.setPassword(password);
+			
+			boolean hasInserted = dao.insertData(userModel);
+			
+			if (hasInserted == true) {
+				response.setStatus(200);
+			}
+			else {
+				response.setStatus(400);
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
 	}
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
