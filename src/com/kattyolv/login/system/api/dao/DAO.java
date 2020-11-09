@@ -100,23 +100,24 @@ public class DAO {
 		return false;
 	}
 	
-	public int deleteData(UserModel userModel) {
+	public boolean deleteData(UserModel userModel) {
 		
 		try {
 			PreparedStatement stmt = connection.prepareStatement(DELETE);
 			
 			stmt.setInt(1, userModel.getId());
-		
+			
 			int rowsAffected = stmt.executeUpdate();
 			
-			return rowsAffected;
-			
+			if (rowsAffected > 0) {
+				return true;
+			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return 0;
+		return false;
 	}
 	
 }

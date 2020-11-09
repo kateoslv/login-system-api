@@ -88,13 +88,13 @@ public class UserController extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		
 		try {
+			
+			UserModel userModel = new UserModel();
 		
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			
-			UserModel userModel = new UserModel();
-			
 			String data = bufferedReader.readLine();
-			
+				
 			String[] dataSplited = data.split("&");
 			
 			for (String parameters : dataSplited) {
@@ -109,7 +109,6 @@ public class UserController extends HttpServlet {
 				}
 				
 				switch (key) {
-				
 					case "id":
 						if (value != null) {
 							int id = Integer.parseInt(value);
@@ -154,7 +153,48 @@ public class UserController extends HttpServlet {
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//invoke delete from DAO class
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods", "DELETE");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		
+		try {
+			
+			UserModel userModel = new UserModel();
+			
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+
+			String data = bufferedReader.readLine();
+			
+			String[] dataSplited = data.split("=");
+			
+			if(dataSplited[0].equalsIgnoreCase("id")) {
+				
+				int idValue = Integer.parseInt(dataSplited[1]);
+				
+				userModel.setId(idValue);
+				
+				boolean hasDeleted = dao.deleteData(userModel);
+				
+				if(hasDeleted == true) {
+					response.setStatus(200);
+				}
+				else {
+					response.setStatus(400);
+				}
+			}
+			else {
+				response.setStatus(422);
+			}
+			
+		}
+		catch (NumberFormatException e) {
+			e.printStackTrace();
+			response.setStatus(422);
+		}		
+		catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+		}
 		
 	}
 
