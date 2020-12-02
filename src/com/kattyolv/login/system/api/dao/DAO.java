@@ -12,6 +12,7 @@ import com.kattyolv.login.system.api.model.UserModel;
 public class DAO {
 
 	static final String SELECT = "SELECT * FROM users ORDER BY first_name";
+	static final String SELECT_USER_BY_EMAIL = "SELECT * FROM users WHERE email=? AND password=?";
 	static final String INSERT = "INSERT INTO users (first_name, last_name, email, password) VALUES (?,?,?,?)";
 	static final String UPDATE = "UPDATE users SET first_name=?, last_name=?, email=?, password=? WHERE id=?";
 	static final String DELETE = "DELETE FROM users WHERE id=?";
@@ -45,6 +46,33 @@ public class DAO {
 			}
 			
 			return listUserModel;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public UserModel selectUserByEmail(String email, String password) {
+		
+		try {
+			PreparedStatement stmt = connection.prepareStatement(SELECT_USER_BY_EMAIL);
+			
+			stmt.setString(1, email);
+			stmt.setString(2, password);
+			
+			ResultSet resultSet = stmt.executeQuery();
+			
+			UserModel userModel = new UserModel();
+			
+			if (resultSet.next()) {
+				
+				userModel.setEmail(resultSet.getString("email"));
+				userModel.setPassword(resultSet.getString("password"));
+				
+				return userModel;
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
