@@ -25,6 +25,15 @@ public class UserController extends HttpServlet {
     public UserController() {
     	super();
     }
+    
+    @Override
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	super.doOptions(request, response);
+    	
+    	response.addHeader("Access-Control-Allow-Origin", "*");
+    	response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+		
+    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -52,7 +61,7 @@ public class UserController extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Methods", "POST");
 		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		
-		try {
+		try { 
 			
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
@@ -81,8 +90,9 @@ public class UserController extends HttpServlet {
 		}
 	}
 
+	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		System.out.println("passed here");
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.addHeader("Access-Control-Allow-Methods", "PUT");
 		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
