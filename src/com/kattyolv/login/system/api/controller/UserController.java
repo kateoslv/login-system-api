@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -61,7 +62,7 @@ public class UserController extends HttpServlet {
 			
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
-			String email = request.getParameter("email");
+			String email = URLDecoder.decode(request.getParameter("email"), "UTF-8");
 			String password = request.getParameter("password");
 			
 			UserModel userModel = new UserModel();
@@ -126,7 +127,7 @@ public class UserController extends HttpServlet {
 						userModel.setLastName(value);
 						break;
 					case "email":
-						userModel.setEmail(value);
+						userModel.setEmail(URLDecoder.decode(value, "UTF-8"));
 						break;
 					case "password":
 						userModel.setPassword(value);
