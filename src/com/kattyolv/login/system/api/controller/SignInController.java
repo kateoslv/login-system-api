@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kattyolv.login.system.api.cors.Cors;
 import com.kattyolv.login.system.api.dao.DAO;
 import com.kattyolv.login.system.api.model.UserModel;
 
@@ -17,12 +18,11 @@ public class SignInController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+		
+		Cors.applyPermissionsHeaders(response);
+		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
-		System.out.println(email);
-		System.out.println(password);
 		
 		DAO dao = new DAO();
 		UserModel userModel = dao.selectUserByEmail(email, password);

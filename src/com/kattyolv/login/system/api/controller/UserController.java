@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.kattyolv.login.system.api.model.*;
 import com.google.gson.Gson;
+import com.kattyolv.login.system.api.cors.Cors;
 import com.kattyolv.login.system.api.dao.DAO;
 
 
@@ -30,16 +31,13 @@ public class UserController extends HttpServlet {
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	super.doOptions(request, response);
     	
-    	response.addHeader("Access-Control-Allow-Origin", "*");
-    	response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    	Cors.applyPermissionsHeaders(response);
 		
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.addHeader("Access-Control-Allow-Methods", "GET");
-		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+	
+		Cors.applyPermissionsHeaders(response);
 		
 		response.setContentType("application/json");
 		
@@ -56,10 +54,8 @@ public class UserController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.addHeader("Access-Control-Allow-Methods", "POST");
-		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+
+		Cors.applyPermissionsHeaders(response);
 		
 		try { 
 			
@@ -92,10 +88,8 @@ public class UserController extends HttpServlet {
 
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("passed here");
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.addHeader("Access-Control-Allow-Methods", "PUT");
-		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		
+		Cors.applyPermissionsHeaders(response);
 		
 		try {
 			
@@ -162,10 +156,8 @@ public class UserController extends HttpServlet {
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.addHeader("Access-Control-Allow-Methods", "DELETE");
-		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		
+		Cors.applyPermissionsHeaders(response);
 		
 		try {
 			
